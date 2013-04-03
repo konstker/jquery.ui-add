@@ -1,4 +1,4 @@
 jquery.ui-add
 =============
 
-Set of additional jQuery UI plugins used for building rich web applications.
+The package provides the set of additional jQuery UI plugins useful for building rich web applications.

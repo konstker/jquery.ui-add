@@ -1,0 +1,162 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="x-ua-compatible" content="Edge" />
+    <title>People</title>
+    <link rel='stylesheet' type='text/css' href='http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css'>
+    <script type='text/javascript' src='http://code.jquery.com/jquery-1.9.1.js'></script>
+    <script type='text/javascript' src='http://code.jquery.com/ui/1.10.2/jquery-ui.js'></script>
+    <script type='text/javascript' src='../../ui/jquery.ui_add.core.js'></script>
+    <script type='text/javascript' src='../../ui/jquery.ui_add.sortable.js'></script>
+    <script type='text/javascript'>
+		$(document).ready(function(){
+			var items=$('.personal_card').each(function(ind,el){
+				var card=$(el),
+					data=eval('('+card.attr('card_data')+')'),
+					td=new Date();
+				data.dob=new Date(data.dob);
+				var age=td.getFullYear()-data.dob.getFullYear()-(td<new Date(td.getFullYear(),data.dob.getMonth(),data.dob.getDate())?1:0);
+				$.extend(data,{
+					age:age,
+					age_group:age<12?1:(age<21?2:(age<30?3:(age<65?4:5)))
+				});
+				card.data('card_data',data);
+				card.append('<div><b>Name:&nbsp;&nbsp;'+data.name+'</b></div>');
+				card.append('<div>Age:&nbsp;&nbsp;'+data.age+'</div>');
+				card.append('<div>Date of birth:&nbsp;&nbsp;'+data.dob.toDateString()+'</div>');
+				card.append('<div>Sex:&nbsp;&nbsp;'+data.sex+'</div>');
+				if(data.interests&&data.interests.length)card.append('<div>Interests:&nbsp;&nbsp;'+data.interests.join(', ')+'</div>');
+			});
+			$('#cards').sortable().sortable('option',{cacheValues:false,sortItemSelector:'.personal_card'});
+			$('#sort_order')
+				.prop('selectedIndex',-1)
+				.change(function(evt){
+					$('#descr').html($('option:selected',evt.target).attr('title')||'');
+					switch(evt.target.value){
+						case 'age_group':
+							$('#cards').sortable('sort',null,1,function(el){return $(el).data('card_data').age_group; });
+							break;
+						case 'birth_date':
+							$('#cards').sortable('sort',null,1,function(el){return $(el).data('card_data').dob; });
+							break;
+						case 'interests':
+							$('#cards').sortable('sort',null,1,function(el){return ($(el).data('card_data').interests||[]).join(', '); });
+							break;
+						case 'name':
+							$('#cards').sortable('sort',null,1,function(el){return $(el).data('card_data').name; });
+							break;
+						case 'sex':
+							$('#cards').sortable('sort',null,1,function(el){return $(el).data('card_data').sex; });
+							break;
+					}
+				});
+		});
+    </script>
+	<style type="text/css">
+		body {
+			font-family: Helvetica, Sans-Serif;
+			font-size: 14px;
+		}
+		.toolbar {
+			background-color: #c0c0c0;
+			border: 1px solid #000000;
+			height: 20px;
+			left: 0px;
+			padding: 15px 30px;
+			position: fixed;
+			top: 0px;
+			width: 100%;
+		}
+		#sort_order{
+			margin: 0px 0px 0px 20px;
+		}
+		#cards{
+			margin: 50px 0px 0px 0px;
+		}
+		.personal_card {
+			clear: right;
+			float: left;
+			height: 380px;
+			margin:10px;
+			padding: 5px 10px;
+		}
+		.personal_card img{
+			border: 1px solid #c0c0c0;
+			display: block;
+			margin:10px;
+		}
+		#descr {
+			margin: 5px 0px 0px 15px;
+		}
+	</style>
+</head>
+<body>
+	<div class='toolbar'>
+		Sort by:
+		<select id='sort_order'>
+			<option value='age_group' title='Age groups are: kids (0-11), teenagers (12-20), youth (21-29), adults (30-64), seniors (65 and above)'>Age group</option>
+			<option value='birth_date' title=''>Date of birth</option>
+			<option value='interests'>Interests</option>
+			<option value='name'>Name</option>
+			<option value='sex'>Sex</option>
+		</select>
+		<span id='descr'></span>
+	</div>
+	<div id='cards'>
+		<div class='personal_card ui-state-default ui-widget-content ui-corner-all' card_data="{dob:'05/09/1945',sex:'M',interests:['green plants','grandchildrens','fishing'],name:'John Smith'}">
+			<img src='1.jpg' />
+		</div>
+		<div class='personal_card ui-state-default ui-widget-content ui-corner-all' card_data="{dob:'03/27/1979',sex:'M',interests:['beer','buddies'],name:'Michael Wong'}">
+			<img src='2.jpg' />
+		</div>
+		<div class='personal_card ui-state-default ui-widget-content ui-corner-all' card_data="{dob:'01/01/2000',sex:'M',interests:['music','hacking'],name:'Ben Brodsky'}">
+			<img src='3.jpg' />
+		</div>
+		<div class='personal_card ui-state-default ui-widget-content ui-corner-all' card_data="{dob:'11/25/1940',sex:'F',interests:['grandchildrens','travel'],name:'Lisa Hungtington'}">
+			<img src='4.jpg' />
+		</div>
+		<div class='personal_card ui-state-default ui-widget-content ui-corner-all' card_data="{dob:'02/27/2008',sex:'F',interests:['Barbie'],name:'Isabella Gonzales'}">
+			<img src='5.jpg' />
+		</div>
+		<div class='personal_card ui-state-default ui-widget-content ui-corner-all' card_data="{dob:'01/07/2012',sex:'M',interests:['crawling','electrical outlets'],name:'Rick Sanches'}">
+			<img src='6.jpg' />
+		</div>
+		<div class='personal_card ui-state-default ui-widget-content ui-corner-all' card_data="{dob:'04/10/2006',sex:'F',interests:['music','friends'],name:'Anna Crugnolla'}">
+			<img src='7.jpg' />
+		</div>
+		<div class='personal_card ui-state-default ui-widget-content ui-corner-all' card_data="{dob:'12/27/1991',sex:'F',interests:['fashion','shopping'],name:'Sweet Candy'}">
+			<img src='8.jpg' />
+		</div>
+		<div class='personal_card ui-state-default ui-widget-content ui-corner-all' card_data="{dob:'06/01/1965',sex:'M',name:'Mike McLarren'}">
+			<img src='9.jpg' />
+		</div>
+		<div class='personal_card ui-state-default ui-widget-content ui-corner-all' card_data="{dob:'08/12/1972',sex:'F',name:'Shannon Rebello'}">
+			<img src='10.jpg' />
+		</div>
+		<div class='personal_card ui-state-default ui-widget-content ui-corner-all' card_data="{dob:'02/20/1974',sex:'M',name:'Marc Charles'}">
+			<img src='11.jpg' />
+		</div>
+		<div class='personal_card ui-state-default ui-widget-content ui-corner-all' card_data="{dob:'05/23/2010',sex:'M',name:'Sean Gooodwin'}">
+			<img src='12.jpg' />
+		</div>
+		<div class='personal_card ui-state-default ui-widget-content ui-corner-all' card_data="{dob:'11/21/1979',sex:'M',name:'Abdula Nazir'}">
+			<img src='13.jpg' />
+		</div>
+		<div class='personal_card ui-state-default ui-widget-content ui-corner-all' card_data="{dob:'11/02/1961',sex:'F',name:'Jannet Jounce'}">
+			<img src='14.jpg' />
+		</div>
+		<div class='personal_card ui-state-default ui-widget-content ui-corner-all' card_data="{dob:'04/01/1949',sex:'F',name:'Elisa Jackson'}">
+			<img src='15.jpg' />
+		</div>
+		<div class='personal_card ui-state-default ui-widget-content ui-corner-all' card_data="{dob:'06/15/1942',sex:'M',name:'Jason Lopez'}">
+			<img src='16.jpg' />
+		</div>
+		<div class='personal_card ui-state-default ui-widget-content ui-corner-all' card_data="{dob:'09/12/1997',sex:'M',name:'Rick Santorus'}">
+			<img src='17.jpg' />
+		</div>
+		<div class='personal_card ui-state-default ui-widget-content ui-corner-all' card_data="{dob:'10/12/2001',sex:'F',name:'Angelica Monroe'}">
+			<img src='18.jpg' />
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+﻿<html>
+<head>
+	<meta http-equiv="x-ua-compatible" content="IE=6">
+    <title></title>
+    <link rel='stylesheet' type='text/css' href='http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css'>
+    <script type='text/javascript' src='http://code.jquery.com/jquery-1.9.1.js'></script>
+    <script type='text/javascript' src='http://code.jquery.com/ui/1.10.2/jquery-ui.js'></script>
+    <script type='text/javascript' src='../../ui/jquery.ui_add.core.js'></script>
+    <script type='text/javascript' src='../../ui/jquery.ui_add.autosizepanel.js'></script>
+    <script type='text/javascript'>
+		var panel=null;
+		function addDiv(){
+			if(!panel)return;
+			$('<div style=\'width:100%;height:145px;background-color:rgb('+[parseInt(Math.random()*255),parseInt(Math.random()*255),parseInt(Math.random()*255)].join(',')+');border:1px solid #000000;text-align:center;\'><div style=\'float:left\'><button onclick=\'delDiv(this.parentNode.parentNode)\'>Remove this div</button></div>Child div</div>').appendTo(panel); //.trigger('resize');
+		}
+		function delDiv(div){
+			$(div).remove();
+		}
+		$(document).ready(function(){
+			panel=$('.autosizepanel').autosizepanel().autosizepanel('widget');
+		});
+    </script>
+    
+</head>
+<body style='margin:3px;padding:7px;border:3px solid;'>
+	<button onclick='addDiv()'>Add div to auto-size panel</button>
+	<div style='height:65px;background-color:white;border:1px solid #000000;text-align:center;font-weight:bold;font-size:20px;'>Header</div>
+	<div class='autosizepanel' style='background-color:#444444;border:1px solid #000000;min-height:100px;height:350px;'></div>
+	<div style='height:80px;background-color:#999999;border:1px solid #000000;text-align:center;font-weight:bold;font-size:20px;'>Footer</div>
+</body>
+</html>
