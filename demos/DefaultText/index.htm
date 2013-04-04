@@ -1,0 +1,33 @@
+﻿<html>
+<head>
+	<meta http-equiv="x-ua-compatible" content="IE=6">
+    <title>DefaultText Widget Example</title>
+    <link rel='stylesheet' type='text/css' href='http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css'>
+    <link rel='stylesheet' type='text/css' href='../../themes/base/jquery.ui_add.defaulttext.css'>
+    <script type='text/javascript' src='http://code.jquery.com/jquery-1.9.1.js'></script>
+    <script type='text/javascript' src='http://code.jquery.com/ui/1.10.2/jquery-ui.js'></script>
+    <script type='text/javascript' src='../../ui/jquery.ui_add.defaulttext.js'></script>
+    <script type='text/javascript'>
+		var counter=0;
+		$(document).ready(function(){
+			$('#input_default_text').defaulttext({'defaultText':'Default Text 1'});
+			$('#area_default_text').defaulttext({'defaultText':'Default Text 2'});
+			$('#div_default_text').defaulttext({'defaultText':'Default Text 3'});
+			$('#btn').click(function(){
+				var behavior=['chrome',''];
+				$('.default_text').defaulttext('option','behavior',behavior[++counter%2]);
+			})
+		});
+    </script>
+    <style type='text/css'>
+		div { clear:both; float:left; width: 50%; margin: 10px 0px 0px 25%; }
+		input, textarea { width: 100%; }
+    </style>
+</head>
+<body>
+	<button id='btn'>Switch behavior</button>
+	<div><input class='default_text' id='input_default_text' type='text' size='100' /></div>
+	<div><textarea class='default_text' id='area_default_text' cols='100' rows='5'></textarea></div>
+	<div class='default_text' id='div_default_text' style='height:150px;' contenteditable='true'></div>
+</body>
+</html>
