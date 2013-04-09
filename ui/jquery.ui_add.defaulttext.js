@@ -42,7 +42,7 @@
 				}
 			});
 			this._setBehavior( this.options.behavior );
-			self.setValue( self.options.defaultText );
+			self._setValue( self.options.defaultText );
 			if( typeof( this.options.disabled ) !== 'boolean' ){
 				this.options.disabled = !! this.element.attr( 'disabled' );
 			}
@@ -67,7 +67,7 @@
 			}
 			return val;
 		},
-		setValue : function( value ){
+		_setValue : function( value ){
 			if ( value === this.options.defaultText ) {
 				if ( this.type === 'text' ) {
 					this.element.val( value );
@@ -88,7 +88,12 @@
 			}
 		},
 		val : function() {
-			return this._getValue();
+			if ( arguments.length ){
+				this._setValue( arguments[0] === '' ? this.options.defaultText : arguments[0] );
+			}
+			else {
+				return this._getValue();
+			}
 		},
 		widget : function() {
 			return this.element;
@@ -97,7 +102,7 @@
 			return this.element.prop( 'placeholder' ) !== undefined;
 		},
 		_setBehavior : function( behavior ){
-			function _isNavigationKey( key ){
+			function _isSpecialKey( key ){
 				switch( key ){
 					case $.ui.keyCode.BACKSPACE:
 					case $.ui.keyCode.DELETE:
@@ -135,14 +140,14 @@
 					}
 					if ( ! self.changed() ) {
 						if ( behavior === 'chrome' ) {
-							if ( _isNavigationKey( event.keyCode ) || event.altKey || event.ctrlKey || ( event.shiftKey && ( event.keyCode === 16 ) ) ) {
+							if ( _isSpecialKey( event.keyCode ) || ( event.altKey && ( event.keyCode === 18 ) ) || ( event.ctrlKey && ( event.keyCode === 17 ) ) || ( event.shiftKey && ( event.keyCode === 16 ) ) ) {
 								return false;
 							}
 							if ( event.keyCode === $.ui.keyCode.TAB ) {
 								return;
 							}
 						}
-						self.setValue( '' );
+						self._setValue( '' );
 					}
 				} )
 				.bind( flst[4] + this.widgetName + ( flst[5] ? ' ' + flst[5] + this.widgetName : '' ), function( event ){
@@ -150,7 +155,7 @@
 						return false;
 					}
 					if ( ! self.changed() ) {
-						self.setValue( self.options.defaultText );
+						self._setValue( self.options.defaultText );
 					}
 				});
 		},
@@ -167,7 +172,7 @@
 				var oldval = this._getValue();
 				this.options.defaultText = value;
 				if ( oldval === '' ) {
-					self.setValue( self.options.defaultText );
+					self._setValue( self.options.defaultText );
 				}
 			}
 			$.Widget.prototype._setOption.apply( this, arguments );
