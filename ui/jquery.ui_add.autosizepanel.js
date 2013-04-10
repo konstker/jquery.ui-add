@@ -1,6 +1,6 @@
 ﻿/**
 * $Id$
-* jQuery UI Additions Autosizepanel 1.0.0
+* jQuery UI Additions Autosizepanel 1.0.1
 *
 * Copyright (C) 2012-2013  Konstantin Kerentsev
 * Dual licensed under the MIT and GPL licenses: 

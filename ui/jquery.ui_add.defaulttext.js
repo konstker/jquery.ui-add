@@ -1,6 +1,6 @@
 /**
 * $Id$
-* jQuery UI Additions Defaulttext 1.0.0
+* jQuery UI Additions Defaulttext 1.0.1
 *
 * Copyright (C) 2012-2013  Konstantin Kerentsev
 * Dual licensed under the MIT and GPL licenses: 
@@ -28,7 +28,15 @@
 			if (this.element.is( ':text' )) {
 				this.type = 'text';
 			}
-			this.element.closest( 'form' ).submit(function() {
+			this.element
+				.bind( 'paste', function(){
+					var timer=setTimeout(function(){
+						clearTimeout(timer);
+						var val=self._getValue();
+						self._setValue( val === ''? self.options.defaultText : val );
+					}, 0 );
+				})
+				.closest( 'form' ).submit(function() {
 				if( self.options.defaultText === '' ) {
 					return;
 				}
@@ -42,7 +50,7 @@
 				}
 			});
 			this._setBehavior( this.options.behavior );
-			self._setValue( self.options.defaultText );
+			this._setValue( this.options.defaultText );
 			if( typeof( this.options.disabled ) !== 'boolean' ){
 				this.options.disabled = !! this.element.attr( 'disabled' );
 			}
